@@ -4,7 +4,7 @@
 
 # Step 2: Download dependencies 
 
-FROM node:22-alpine AS builder 
+FROM node:18-alpine AS builder 
 
 WORKDIR /app 
 
@@ -24,7 +24,7 @@ RUN npm run build
 
 # Step 4: Run the compiled app 
 
-FROM node:22-alpine 
+FROM node:18-alpine 
 
 WORKDIR /app 
 
@@ -39,3 +39,4 @@ COPY --from=builder /app/package*.json ./
 EXPOSE 3000 
 
 CMD ["node", "dist/main"] 
+
