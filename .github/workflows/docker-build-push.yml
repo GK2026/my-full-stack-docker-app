@@ -54,7 +54,7 @@ jobs:
           mkdir -p ~/app/deploy
           cd ~/app/deploy
 
-          curl -f -o docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/main/ci_docker-compose.yml
+          curl -f -o docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/main/docker-compose.yml
 
           sed -i "s|YOUR_DOCKERHUB_USERNAME|$DOCKER_USER|g" docker-compose.yml
 
