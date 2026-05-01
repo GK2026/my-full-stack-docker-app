@@ -12,9 +12,6 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
-    outputs:
-      sha_short: ${{ steps.vars.outputs.sha_short }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -59,18 +56,22 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: build-and-push
-    outputs:
-      sha_short: ${{ steps.vars.outputs.sha_short }}
+
     steps:
       - name: Pull and redeploy
         env:
           SHA: ${{ needs.build-and-push.outputs.sha_short }}
           DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
+          set -e
+
           mkdir -p ~/app/deploy
-          curl -o ~/app/deploy/docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/feature/pipeline/ci_docker-compose.yml
           cd ~/app/deploy
+
+          curl -f -o docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/feature/pipeline/ci_docker-compose.yml
+
           sed -i "s|YOUR_DOCKERHUB_USERNAME|$DOCKER_USER|g" docker-compose.yml
           sed -i "s|YOUR_SHA|$SHA|g" docker-compose.yml
-          docker compose pull
-          docker compose up -d
+
+          docker compose pull || docker-compose pull
+          docker compose up -d || docker-compose up -d
