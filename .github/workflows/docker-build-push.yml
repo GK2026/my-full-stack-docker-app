@@ -56,7 +56,6 @@ jobs:
     steps:
       - name: Pull and redeploy
         env:
-          SHA: ${{ github.sha }}
           DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           set -e
@@ -67,7 +66,6 @@ jobs:
           curl -f -o docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/feature/pipeline/ci_docker-compose.yml
 
           sed -i "s|YOUR_DOCKERHUB_USERNAME|$DOCKER_USER|g" docker-compose.yml
-          sed -i "s|YOUR_SHA|$SHA|g" docker-compose.yml
 
           docker compose pull
           docker compose up -d
