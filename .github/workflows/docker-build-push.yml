@@ -62,9 +62,7 @@ jobs:
 
           mkdir -p ~/app/deploy
           cd ~/app/deploy
-
-          curl -f -o docker-compose.yml https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/feature/pipeline/ci_docker-compose.yml
-
+          curl -f https://raw.githubusercontent.com/innoetech-dev/my-full-stack-docker-app/refs/heads/feature/pipeline/ci_docker-compose.yml | nl -ba | sed -n '1,20p'
           sed -i "s|YOUR_DOCKERHUB_USERNAME|$DOCKER_USER|g" docker-compose.yml
 
           docker compose pull
