@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+mame: Build and Push Docker Images
 
 on:
   pull_request:
