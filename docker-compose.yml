@@ -2,24 +2,25 @@ version: "3.8"
 
 services:
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    image: ${DOCKER_USER}/nginx:latest
     container_name: nginx-container
     ports:
       - "80:80"
     depends_on:
       - frontend
       - backend
+    restart: always
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: ${DOCKER_USER}/frontend:latest
     container_name: frontend-container
+    ports:
+      - "5173:5173"
+    restart: always
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ${DOCKER_USER}/backend:latest
     container_name: backend-container
+    ports:
+      - "3000:3000"
+    restart: always
