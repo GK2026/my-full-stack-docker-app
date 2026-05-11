@@ -22,11 +22,11 @@ services:
   backend-1:
     image: ${DOCKER_USER}/backend:latest
     container_name: backend-container-1
-    ports:
+    ports: "3000:3000"
     restart: always
 
   backend-2:
     image: ${DOCKER_USER}/backend:latest
     container_name: backend-container-2
-    ports:
+    ports:"3000:3000"
     restart: always
