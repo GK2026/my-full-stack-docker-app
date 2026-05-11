@@ -15,7 +15,7 @@ services:
 
   frontend:
     image: ${DOCKER_USER}/frontend:latest
-    platform: linux/arm64    
+    platform: linux/arm64
     container_name: frontend-container
     ports:
       - "5173:5173"
@@ -32,12 +32,3 @@ services:
     platform: linux/arm64
     container_name: backend-container-2
     restart: always
-    container_name: nginx-container
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend-1
-      - backend-2
-    restart: always
-
