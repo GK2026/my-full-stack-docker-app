@@ -3,9 +3,7 @@ version: "3.8"
 services:
   nginx:
     image: ${DOCKER_USER}/nginx:latest
-    services:
-  nginx:
-    image: ${DOCKER_USER}/nginx:latest
+    platform: linux/arm64
     container_name: nginx-container
     ports:
       - "80:80"
