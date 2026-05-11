@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -24,6 +27,7 @@ jobs:
         with:
           context: ./frontend
           push: true
+          platforms: linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
 
       - name: Build and push backend
@@ -31,6 +35,7 @@ jobs:
         with:
           context: ./backend
           push: true
+          platforms: linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
       - name: Build and push nginx
@@ -38,6 +43,7 @@ jobs:
         with:
           context: ./nginx
           push: true
+          platforms: linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/nginx:latest
 
   deploy:
@@ -53,9 +59,10 @@ jobs:
 
           mkdir -p ~/app/deploy
           cd ~/app/deploy
+
           curl -o ~/app/deploy/docker-compose.yml https://raw.githubusercontent.com/GK2026/my-full-stack-docker-app/main/docker-compose.yml
+
           sed -i "s|YOUR_DOCKERHUB_USERNAME|$DOCKER_USER|g" docker-compose.yml
 
           docker compose pull
           docker compose up -d
-
